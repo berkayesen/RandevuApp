@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RandevuApp.Models.Appointment>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Hizmet</th>
+            <th>Randevu Tarihi</th>
+            <th>Durum</th>
+            <th>Aksiyonlar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Service.Name</td>
+                <td>@item.AppointmentDate</td>
+                <td>@item.Status</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Appointment", new { id = item.Id })">Düzenle</a> |
+                    <a href="@Url.Action("Delete", "Appointment", new { id = item.Id })">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

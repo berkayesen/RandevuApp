@@ -1,0 +1,8 @@
+﻿@model RandevuApp.ViewModels.LoginViewModel
+
+<h2>Giriş Yap</h2>
+<form asp-action="Login">
+    <input asp-for="Email" placeholder="E-posta" />
+    <input asp-for="Password" type="password" placeholder="Şifre" />
+    <button type="submit">Giriş Yap</button>
+</form>

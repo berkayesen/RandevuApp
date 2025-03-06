@@ -1,0 +1,9 @@
+﻿@model RandevuApp.Models.Appointment
+
+<h3>Randevu Sil</h3>
+<p>Randevuyu silmek istediğinizden emin misiniz?</p>
+
+<form method="post">
+    <input type="submit" value="Sil" class="btn btn-danger" />
+    <a href="@Url.Action("Index", "Appointment")" class="btn btn-secondary">İptal</a>
+</form>
