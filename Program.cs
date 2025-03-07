@@ -11,9 +11,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Identity Kullanýcý Yönetimi
-builder.Services.AddIdentity<RandevuApp.Data.ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<RandevuApp.Models.ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

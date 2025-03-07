@@ -1,0 +1,51 @@
+﻿@model List<RandevuApp.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<h2>Randevularım</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Hizmet</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentDate.ToString("dd.MM.yyyy")</td>
+                <td>@appointment.Service.Name</td>
+                <td>@appointment.Status</td>
+                <td>
+                    <a href="/Appointment/Edit/@appointment.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a href="/Appointment/Delete/@appointment.Id" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Appointment/Create" class="btn btn-primary">Yeni Randevu Al</a>
+<script>
+    $(document).ready(function () {
+        $(".btn-delete").click(function () {
+            var id = $(this).data("id");
+            if (confirm("Bu randevuyu silmek istediğinizden emin misiniz?")) {
+                $.ajax({
+                    url: "/Appointment/Delete/" + id,
+                    type: "POST",
+                    success: function (response) {
+                        alert("Randevu başarıyla silindi.");
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+

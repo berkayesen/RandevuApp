@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RandevuApp.Data;
 using RandevuApp.Models;
@@ -15,7 +16,8 @@ public class AppointmentController : Controller
     // GET: Appointments/Create
     public IActionResult Create()
     {
-        ViewBag.Services = _context.Services.ToList();  // Hizmet tiplerini ekle
+        //ViewBag.Services = _context.Services.ToList();  // Hizmet tiplerini ekle
+        ViewBag.Services = new SelectList(_context.Services, "Id", "Name");
         return View();
     }
 
@@ -30,7 +32,10 @@ public class AppointmentController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));  // Randevular listesine yönlendir
         }
-        ViewBag.Services = _context.Services.ToList();
+        ViewBag.Services = _context.Services
+        .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
+        .ToList();
+
         return View(appointment);
     }
     public async Task<IActionResult> Index()
@@ -53,6 +58,12 @@ public class AppointmentController : Controller
         ViewBag.Services = _context.Services.ToList();
         return View(appointment);
     }
+
+    private bool AppointmentExists(int id)
+    {
+        return _context.Appointments.Any(e => e.Id == id);
+    }
+
 
     // POST: Appointments/Edit/5
     [HttpPost]
@@ -110,7 +121,7 @@ public class AppointmentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var appointment = await _context.Appointments.FindAsync(id);
+        var appointment = _context.Appointments.Find(id);
         _context.Appointments.Remove(appointment);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
